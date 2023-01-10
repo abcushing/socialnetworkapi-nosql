@@ -3,6 +3,7 @@ const { userSchema } = require("../models/User");
 module.exports = {
   // Get all users
   getUsers(req, res) {
+    console.log("getusers");
     userSchema
       .find()
       .then((users) => res.json(users))
