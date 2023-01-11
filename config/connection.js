@@ -10,5 +10,5 @@ mongoose.connect("mongodb://127.0.0.1:27017/socialnetwork_db", {
   useUnifiedTopology: true,
 });
 
-console.log("connected to dataabase");
+console.log("connected to database");
 module.exports = mongoose.connection;
