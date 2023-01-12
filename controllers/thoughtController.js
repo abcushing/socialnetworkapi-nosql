@@ -26,7 +26,7 @@ const thoughtController = {
         return res.status(404).json({ message: "No thought with that ID" });
       } else {
         console.log("thought 2 ", thought);
-        return await res.status(200).json(thought);
+        return res.status(200).json(thought);
       }
     } catch (err) {
       return res.status(500).json(err);
