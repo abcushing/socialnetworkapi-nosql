@@ -10,7 +10,8 @@ module.exports = {
   },
   // Get a user
   getSingleUser(req, res) {
-    User.findOne({ _id: req.params._id })
+    console.log("req params= ", req.params);
+    User.findOne({ _id: req.params.userId })
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No user with that ID exists" })
@@ -32,19 +33,23 @@ module.exports = {
   },
   // Delete a user
   deleteUser(req, res) {
+    console.log(req.params);
     User.findOneAndDelete({ _id: req.params.userId })
-      .then((user) =>
+      .then((user) => {
+        console.log("user", user);
         !user
           ? res.status(404).json({ message: "No user with that ID" })
-          : userSchema.deleteOne()
-      )
+          : userSchema.deleteOne();
+      })
       .then(() => res.json({ message: "user deleted!" }))
       .catch((err) => res.status(500).json(err));
   },
   // Update a user
   updateUser(req, res) {
+    console.log("update params ", req.params);
+    console.log(req.body);
     User.findOneAndUpdate(
-      { _id: req.params._id },
+      { _id: req.params.userId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
@@ -57,16 +62,18 @@ module.exports = {
   },
 
   addFriend(req, res) {
+    console.log("words n hre", req.params, req.body);
     User.findOneAndUpdate(
-      { _id: req.params._id },
+      { _id: req.params.userId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((user) =>
+      .then((user) => {
+        console.log("users ad frend", user);
         !user
           ? res.status(404).json({ message: "No user with this id!" })
-          : res.json(user)
-      )
+          : res.json(user);
+      })
       .catch((err) => res.status(500).json(err));
   },
 
