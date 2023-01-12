@@ -4,11 +4,16 @@ const thoughtController = {
   // get all thoughts
   async getThoughts(req, res) {
     try {
+      console.log("getthoughts");
       const thoughts = await Thought.find();
-      return res.json(thoughts);
+      //   .then((thoughts) => {
+      console.log(thoughts);
+      return await res.status(200).json(thoughts);
+      // })
     } catch (err) {
       return res.status(500).json(err);
     }
+    // .catch((err) => res.status(500).json(err));
   },
   // get thought by ID
   async findSingleThought(req, res) {
@@ -16,10 +21,12 @@ const thoughtController = {
       const thought = await Thought.findOne({
         _id: req.params.thoughtId,
       }).select("-__v");
+      console.log("thought", thought);
       if (!thought) {
         return res.status(404).json({ message: "No thought with that ID" });
       } else {
-        return res.status(200).json(thought);
+        console.log("thought 2 ", thought);
+        return await res.status(200).json(thought);
       }
     } catch (err) {
       return res.status(500).json(err);
@@ -103,9 +110,10 @@ const thoughtController = {
     try {
       const reaction = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { $pull: { reactions: { _id: req.params.reactionId } } },
         { new: true }
       );
+      console.log("for reaction ", reaction);
       if (!reaction) {
         return res
           .status(404)
